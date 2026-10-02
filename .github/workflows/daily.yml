@@ -6,6 +6,10 @@ on:
     # picks up any day a late file or a failed run left behind.
     - cron: "30 16 * * 1-5"
   workflow_dispatch:
+    inputs:
+      probe_date:
+        description: "Download this trade date (YYYY-MM-DD) from both exchanges and report row counts, without writing anything"
+        required: false
   push:
     branches: [main]
     paths: ["pipeline/**", "dbt/**", "tests/**", "requirements.txt", ".github/workflows/**"]
@@ -30,6 +34,25 @@ jobs:
 
       - name: Unit tests
         run: pytest -q
+
+      # Answers one question: do the exchanges serve real files to this runner?
+      - name: Probe a download
+        if: github.event_name == 'workflow_dispatch' && inputs.probe_date != ''
+        env:
+          PROBE_DATE: ${{ inputs.probe_date }}
+        run: |
+          python - <<'PY'
+          import os
+          from datetime import date
+          from pipeline.ingest import fetch, validate
+          from pipeline.sources import SOURCES
+          day = date.fromisoformat(os.environ["PROBE_DATE"])
+          for name, source in sorted(SOURCES.items()):
+              body = fetch(source, day)
+              if body is None:
+                  raise SystemExit(f"{name} {day}: no file served to this runner")
+              print(f"{name} {day}: {validate(body, name, day)} rows downloaded")
+          PY
 
       # The warehouse is a cache of data/raw. With it, dbt runs incrementally.
       # Without it, the loader rebuilds it from the landing zone.
