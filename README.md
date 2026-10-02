@@ -102,10 +102,13 @@ tests, restores the warehouse cache, runs the pipeline, and commits new landing
 files and the dashboard JSON. If a data test fails, the data is still committed so
 the failure shows on the dashboard, and the run goes red.
 
+Both exchanges serve these files to GitHub's runners. A manual run with a
+`probe_date` downloads that day on the runner and reports the row counts without
+writing anything: on 2026-10-02 it returned 3,712 NSE rows and 5,163 BSE rows for
+2026-10-01, the same counts as the local download.
+
 ## Known limits
 
 - The landing zone grows about 470 KB per trading day, roughly 120 MB a year.
 - Exchange holidays are inferred from a missing file, not read from a calendar.
 - Prices are not adjusted for splits or bonuses.
-- Whether the exchanges serve these files to GitHub's runners is untested until the
-  first scheduled run.

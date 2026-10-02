@@ -25,7 +25,12 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
+      # Check out the branch head, not the commit that triggered the run. A run
+      # that waited in the queue behind another would otherwise push from a
+      # stale commit and be rejected.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
