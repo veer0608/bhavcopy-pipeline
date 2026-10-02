@@ -1,0 +1,7 @@
+bhavcopy:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('BHAV_WAREHOUSE', '../warehouse.duckdb') }}"
+      threads: 4

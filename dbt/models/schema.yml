@@ -1,0 +1,47 @@
+version: 2
+
+seeds:
+  - name: series_segments
+    description: Which series codes are mainboard equity and which are SME. Anything unlisted is "other".
+
+models:
+  - name: stg_bhavcopy
+    description: Typed, renamed bhavcopy rows. No filtering.
+    columns:
+      - name: exchange
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["NSE", "BSE"]
+      - name: trade_date
+        data_tests: [not_null]
+      - name: instrument_id
+        data_tests: [not_null]
+      - name: symbol
+        data_tests: [not_null]
+      - name: close_price
+        data_tests: [not_null]
+
+  - name: fct_daily_prices
+    description: One row per instrument per exchange per trade date. Incremental, replaced by exchange-day.
+    columns:
+      - name: price_key
+        data_tests: [unique, not_null]
+      - name: segment
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["mainboard", "sme", "other"]
+
+  - name: mart_market_breadth
+    description: Advancers, decliners and turnover per exchange per day, mainboard equities only.
+    columns:
+      - name: securities_traded
+        data_tests: [not_null]
+
+  - name: mart_exchange_reconciliation
+    description: NSE close against BSE close for liquid securities listed on both.
+
+  - name: mart_top_movers
+    description: Top 10 liquid gainers and losers per exchange on its latest trade date.

@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bhavcopy pipeline</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10);
+  --series-1: #2a78d6; --series-2: #eb6834; --up: #2a78d6; --down: #e34948;
+  --good: #0ca30c; --warning: #fab219; --critical: #d03b3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+    --series-1: #3987e5; --series-2: #d95926; --up: #3987e5; --down: #e66767;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 15px; margin: 0 0 2px; }
+p { margin: 0; }
+a { color: inherit; }
+.sub { color: var(--ink-2); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 24px 0 12px; }
+.tile .label { color: var(--ink-2); font-size: 13px; }
+.tile .value { font-size: 28px; font-weight: 600; line-height: 1.2; }
+.tile .note { color: var(--muted); font-size: 12px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 12px; }
+.wide { grid-column: 1 / -1; }
+.filters { display: flex; gap: 8px; align-items: center; margin: 20px 0 12px; }
+.filters button { font: inherit; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.legend { display: flex; gap: 16px; color: var(--ink-2); font-size: 12px; margin: 6px 0 2px; }
+.key { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; }
+.chart { position: relative; margin-top: 4px; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.chart text.end { fill: var(--ink-2); }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 8px; font-size: 12px; white-space: nowrap; display: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12); z-index: 2; }
+.tip b { font-weight: 600; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; color: var(--muted); font-weight: 500; font-size: 12px; }
+th, td { padding: 5px 8px 5px 0; border-bottom: 1px solid var(--grid); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.scroll { overflow-x: auto; }
+details { margin-top: 8px; color: var(--ink-2); font-size: 12px; }
+details .scroll { max-height: 220px; overflow-y: auto; margin-top: 6px; }
+.status { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 14px; height: 14px; border-radius: 50%; display: inline-grid; place-items: center;
+  color: #fff; font-size: 10px; font-weight: 700; line-height: 1; }
+.dot.pass { background: var(--good); } .dot.warn { background: var(--warning); color: #0b0b0b; }
+.dot.fail { background: var(--critical); } .dot.skipped { background: var(--muted); }
+code { font-size: 12px; }
+footer { color: var(--muted); font-size: 12px; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Bhavcopy pipeline</h1>
+  <p class="sub">Daily end-of-day prices from NSE and BSE, landed, loaded into DuckDB, modelled and tested with dbt.
+    <span id="updated"></span></p>
+
+  <section class="tiles" id="tiles"></section>
+
+  <div class="filters" role="group" aria-label="Exchange">
+    <span class="sub">Exchange</span>
+    <button data-ex="NSE" aria-pressed="true">NSE</button>
+    <button data-ex="BSE" aria-pressed="false">BSE</button>
+  </div>
+
+  <div class="grid">
+    <section class="card wide">
+      <h2>Market breadth</h2>
+      <p class="sub">Mainboard stocks that closed up and down each day, <span class="ex"></span></p>
+      <div class="legend"><span><i class="key" style="background:var(--up)"></i>Advancers</span>
+        <span><i class="key" style="background:var(--down)"></i>Decliners</span></div>
+      <div class="chart" id="breadth"></div>
+    </section>
+    <section class="card wide">
+      <h2>Top movers</h2>
+      <p class="sub" id="movers-sub"></p>
+      <div class="grid" style="margin:8px 0 0">
+        <div class="scroll" id="gainers"></div>
+        <div class="scroll" id="losers"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Rows per file</h2>
+      <p class="sub">A truncated or doubled download would show as a spike</p>
+      <div class="legend"><span><i class="key" style="background:var(--series-1)"></i>NSE</span>
+        <span><i class="key" style="background:var(--series-2)"></i>BSE</span></div>
+      <div class="chart" id="rows"></div>
+    </section>
+    <section class="card">
+      <h2>NSE and BSE disagreement on the close</h2>
+      <p class="sub">Median gap in basis points across liquid stocks listed on both</p>
+      <div class="chart" id="recon"></div>
+    </section>
+    <section class="card wide">
+      <h2>Data checks</h2>
+      <p class="sub">Every dbt test from the last run</p>
+      <div class="scroll" id="checks" style="margin-top:8px"></div>
+    </section>
+  </div>
+
+  <footer>Source files are the exchanges' public bhavcopy downloads. Not investment advice.</footer>
+</main>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => Number(n).toLocaleString("en-IN");
+const day = d => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function el(name, attrs, parent) {
+  const e = document.createElementNS(NS, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+function niceMax(v) {
+  const p = Math.pow(10, Math.floor(Math.log10(v || 1)));
+  return [1, 1.2, 1.6, 2, 2.4, 3, 4, 5, 6, 8, 10].map(m => m * p).find(m => m >= v);
+}
+
+function table(cols, rows) {
+  return "<table><thead><tr>" + cols.map(c => `<th class="${c.num ? "num" : ""}">${c.label}</th>`).join("") +
+    "</tr></thead><tbody>" + rows.map(r => "<tr>" + cols.map(c =>
+      `<td class="${c.num ? "num" : ""}">${c.html ? c.html(r) : esc(c.fmt ? c.fmt(r[c.key]) : r[c.key])}</td>`).join("") +
+    "</tr>").join("") + "</tbody></table>";
+}
+
+// Shared frame: axes, gridlines, x labels, a hover band per x position, and a data table below.
+function frame(host, dates, yMin, yMax, opts) {
+  host.innerHTML = "";
+  const W = opts.width || 480, H = opts.height || 220, m = { t: 10, r: opts.right || 12, b: 22, l: 44 };
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": opts.label }, host);
+  const x = i => m.l + (dates.length === 1 ? 0.5 : i / (dates.length - 1)) * (W - m.l - m.r);
+  const y = v => m.t + (1 - (v - yMin) / (yMax - yMin)) * (H - m.t - m.b);
+  const ticks = 4;
+  for (let t = 0; t <= ticks; t++) {
+    const v = yMin + (yMax - yMin) * t / ticks;
+    el("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), stroke: v === 0 ? "var(--axis)" : "var(--grid)" }, svg);
+    el("text", { x: m.l - 6, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = fmt(Math.abs(v));
+  }
+  const every = Math.ceil(dates.length / (opts.xLabels || 6));
+  dates.forEach((d, i) => {
+    if ((dates.length - 1 - i) % every === 0)
+      el("text", { x: x(i), y: H - 6, "text-anchor": "middle" }, svg).textContent = day(d);
+  });
+  const tip = document.createElement("div");
+  tip.className = "tip";
+  host.appendChild(tip);
+  const cursor = el("line", { y1: m.t, y2: H - m.b, stroke: "var(--axis)", visibility: "hidden" }, svg);
+  const marks = el("g", {}, svg);
+  const step = dates.length > 1 ? x(1) - x(0) : W;
+  dates.forEach((d, i) => {
+    const hit = el("rect", { x: x(i) - step / 2, y: m.t, width: step, height: H - m.t - m.b, fill: "transparent" }, svg);
+    hit.addEventListener("mouseenter", () => {
+      cursor.setAttribute("x1", x(i)); cursor.setAttribute("x2", x(i));
+      if (opts.cursor !== false) cursor.setAttribute("visibility", "visible");
+      tip.innerHTML = `<b>${day(d)}</b><br>` + opts.tip(i);
+      tip.style.display = "block";
+      const px = x(i) / W * host.clientWidth;
+      tip.style.left = Math.min(px + 10, host.clientWidth - tip.offsetWidth) + "px";
+      tip.style.top = "8px";
+    });
+    hit.addEventListener("mouseleave", () => { tip.style.display = "none"; cursor.setAttribute("visibility", "hidden"); });
+  });
+  if (opts.table) {
+    const d = document.createElement("details");
+    d.innerHTML = "<summary>Show data</summary><div class='scroll'>" + opts.table + "</div>";
+    host.appendChild(d);
+  }
+  return { svg: marks, x, y, W, m, step };
+}
+
+function lineChart(host, dates, series, opts) {
+  const max = niceMax(Math.max(...series.flatMap(s => s.values.filter(v => v != null))));
+  const f = frame(host, dates, 0, max, opts);
+  series.forEach(s => {
+    const pts = s.values.map((v, i) => v == null ? null : [f.x(i), f.y(v)]).filter(Boolean);
+    el("polyline", { points: pts.map(p => p.join(",")).join(" "), fill: "none", stroke: s.color,
+      "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, f.svg);
+    const last = pts[pts.length - 1];
+    el("circle", { cx: last[0], cy: last[1], r: 4, fill: s.color, stroke: "var(--surface)", "stroke-width": 2 }, f.svg);
+    const lbl = el("text", { x: last[0] + 8, y: last[1] + 4, class: "end" }, f.svg);
+    lbl.textContent = (s.name ? s.name + " " : "") + fmt(s.values[s.values.length - 1]);
+  });
+}
+
+function breadthChart(host, rows) {
+  const dates = rows.map(r => r.trade_date);
+  const max = niceMax(Math.max(...rows.map(r => Math.max(r.advancers, r.decliners))));
+  const f = frame(host, dates, -max, max, {
+    width: 980, height: 260, xLabels: 10, cursor: false, label: "Advancers and decliners per day",
+    tip: i => `Advancers ${fmt(rows[i].advancers)}<br>Decliners ${fmt(rows[i].decliners)}<br>Unchanged ${fmt(rows[i].unchanged)}`,
+    table: table([{ key: "trade_date", label: "Date" }, { key: "advancers", label: "Advancers", num: 1, fmt },
+      { key: "decliners", label: "Decliners", num: 1, fmt }, { key: "unchanged", label: "Unchanged", num: 1, fmt },
+      { key: "turnover_crore", label: "Turnover (crore)", num: 1, fmt }], rows.slice().reverse()),
+  });
+  const w = Math.max(2, Math.min(24, f.step - 2)), r = Math.min(4, w / 2), y0 = f.y(0);
+  rows.forEach((d, i) => {
+    const cx = f.x(i) - w / 2, up = y0 - f.y(d.advancers), dn = f.y(-d.decliners) - y0;
+    // Rounded at the data end, square at the baseline.
+    el("path", { fill: "var(--up)", d: `M${cx},${y0 - 1}v${-(up - 1 - r)}q0,${-r} ${r},${-r}h${w - 2 * r}q${r},0 ${r},${r}v${up - 1 - r}z` }, f.svg);
+    el("path", { fill: "var(--down)", d: `M${cx},${y0 + 1}v${dn - 1 - r}q0,${r} ${r},${r}h${w - 2 * r}q${r},0 ${r},${-r}v${-(dn - 1 - r)}z` }, f.svg);
+  });
+}
+
+function render(data, ex) {
+  document.querySelectorAll(".ex").forEach(e => e.textContent = ex);
+  breadthChart(document.getElementById("breadth"), data.breadth.filter(r => r.exchange === ex));
+
+  const movers = data.movers.filter(r => r.exchange === ex);
+  document.getElementById("movers-sub").textContent = movers.length
+    ? `${ex} mainboard, ${day(movers[0].trade_date)}, turnover of at least 1 crore` : "";
+  const cols = [{ key: "symbol", label: "Symbol" }, { key: "close_price", label: "Close", num: 1, fmt },
+    { key: "pct_change", label: "Change", num: 1, fmt: v => (v > 0 ? "+" : "") + v.toFixed(2) + "%" },
+    { key: "turnover_crore", label: "Turnover (crore)", num: 1, fmt }];
+  cols[0].label = "Gainers";
+  document.getElementById("gainers").innerHTML = table(cols, movers.filter(r => r.direction === "gainer"));
+  cols[0].label = "Losers";
+  document.getElementById("losers").innerHTML = table(cols, movers.filter(r => r.direction === "loser"));
+}
+
+function renderStatic(data) {
+  const c = data.checks, days = Math.max(...data.coverage.map(r => r.days));
+  const rows = data.coverage.reduce((a, r) => a + r.rows, 0);
+  const first = data.coverage.map(r => r.first_date).sort()[0];
+  const last = data.coverage.map(r => r.last_date).sort().pop();
+  const state = c.fail ? "fail" : c.warn ? "warn" : "pass";
+  const icon = { pass: "✓", warn: "!", fail: "×", skipped: "–" };
+  const word = { pass: "Passed", warn: "Warning", fail: "Failed", skipped: "Skipped" };
+  document.getElementById("updated").textContent =
+    "Last run " + new Date(data.generated_at).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" }) + ".";
+  const tiles = [
+    ["Trading days ingested", fmt(days), `${day(first)} to ${day(last)}, per exchange`],
+    ["Rows loaded", fmt(rows), `${data.coverage.length} exchanges`],
+    ["Data checks passing", `${c.pass} of ${c.total}`,
+      `<span class="status"><i class="dot ${state}">${icon[state]}</i>${c.fail} failed, ${c.warn} ${c.warn === 1 ? "warning" : "warnings"}${c.skipped ? `, ${c.skipped} skipped` : ""}</span>`],
+    ["Exchange holidays skipped", fmt(data.holidays.length), "weekdays with no file"],
+  ];
+  document.getElementById("tiles").innerHTML = tiles.map(t =>
+    `<div class="card tile"><div class="label">${t[0]}</div><div class="value">${t[1]}</div><div class="note">${t[2]}</div></div>`).join("");
+
+  const dates = [...new Set(data.files.map(f => f.trade_date))];
+  const by = ex => dates.map(d => (data.files.find(f => f.exchange === ex && f.trade_date === d) || {}).rows ?? null);
+  const nse = by("NSE"), bse = by("BSE");
+  lineChart(document.getElementById("rows"), dates,
+    [{ name: "NSE", values: nse, color: "var(--series-1)" }, { name: "BSE", values: bse, color: "var(--series-2)" }],
+    { right: 70, label: "Rows per file per day", tip: i => `NSE ${nse[i] == null ? "none" : fmt(nse[i])}<br>BSE ${bse[i] == null ? "none" : fmt(bse[i])}`,
+      table: table([{ key: "trade_date", label: "Date" }, { key: "exchange", label: "Exchange" },
+        { key: "rows", label: "Rows", num: 1, fmt }], data.files.slice().reverse()) });
+
+  const rc = data.reconciliation;
+  lineChart(document.getElementById("recon"), rc.map(r => r.trade_date),
+    [{ values: rc.map(r => r.median_bps), color: "var(--series-1)" }],
+    { right: 40, label: "Median close gap in basis points",
+      tip: i => `Median ${rc[i].median_bps} bps<br>99th percentile ${rc[i].p99_bps} bps<br>${fmt(rc[i].pairs)} stocks compared, ${rc[i].over_200bps} over 2%`,
+      table: table([{ key: "trade_date", label: "Date" }, { key: "pairs", label: "Stocks", num: 1, fmt },
+        { key: "median_bps", label: "Median bps", num: 1 }, { key: "p99_bps", label: "p99 bps", num: 1 },
+        { key: "over_200bps", label: "Over 2%", num: 1 }], rc.slice().reverse()) });
+
+  document.getElementById("checks").innerHTML = table([
+    { label: "Status", html: r => `<span class="status"><i class="dot ${r.status}">${icon[r.status]}</i>${word[r.status]}</span>` },
+    { label: "Check", html: r => `<code>${esc(r.name)}</code>` },
+    { key: "failures", label: "Rows flagged", num: 1, fmt }], c.results);
+}
+
+fetch("data/summary.json").then(r => r.json()).then(data => {
+  renderStatic(data);
+  let ex = "NSE";
+  render(data, ex);
+  document.querySelectorAll(".filters button").forEach(b => b.addEventListener("click", () => {
+    ex = b.dataset.ex;
+    document.querySelectorAll(".filters button").forEach(o => o.setAttribute("aria-pressed", o === b));
+    render(data, ex);
+  }));
+});
+</script>
+</body>
+</html>

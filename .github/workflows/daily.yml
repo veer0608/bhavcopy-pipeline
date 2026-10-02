@@ -1,0 +1,59 @@
+name: daily
+
+on:
+  schedule:
+    # 16:30 UTC is 22:00 IST, well after both exchanges publish. The lookback
+    # picks up any day a late file or a failed run left behind.
+    - cron: "30 16 * * 1-5"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["pipeline/**", "dbt/**", "tests/**", "requirements.txt", ".github/workflows/**"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Unit tests
+        run: pytest -q
+
+      # The warehouse is a cache of data/raw. With it, dbt runs incrementally.
+      # Without it, the loader rebuilds it from the landing zone.
+      - uses: actions/cache@v4
+        with:
+          path: warehouse.duckdb
+          key: warehouse-${{ github.run_id }}
+          restore-keys: warehouse-
+
+      - name: Ingest, load, build, export
+        id: pipeline
+        run: python -m pipeline run
+        continue-on-error: true
+
+      - name: Commit new data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data docs/data
+          git diff --cached --quiet || git commit -m "data: $(date -u +%F)"
+          git push
+
+      # Data is committed first so a failed check is visible on the dashboard,
+      # then the run still goes red.
+      - name: Fail if the pipeline failed
+        if: steps.pipeline.outcome == 'failure'
+        run: exit 1

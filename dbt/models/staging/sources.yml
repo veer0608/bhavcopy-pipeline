@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: Landed bhavcopy files, loaded untyped by pipeline/load.py.
+    tables:
+      - name: bhavcopy
+        description: One row per instrument per exchange per trade date. Every source column is VARCHAR.
+      - name: loaded_files
+        description: One row per landed file, with its sha256 and row count.

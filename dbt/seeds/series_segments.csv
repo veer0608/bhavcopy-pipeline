@@ -1,0 +1,14 @@
+exchange,series,segment
+NSE,EQ,mainboard
+NSE,BE,mainboard
+NSE,BZ,mainboard
+NSE,SM,sme
+NSE,ST,sme
+BSE,A,mainboard
+BSE,B,mainboard
+BSE,T,mainboard
+BSE,X,mainboard
+BSE,XT,mainboard
+BSE,Z,mainboard
+BSE,M,sme
+BSE,MT,sme
