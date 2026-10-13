@@ -27,6 +27,8 @@ exchange file  ->  data/raw/<SRC>/<year>/<date>.csv.gz   landing zone, in git
                ->  raw.bhavcopy                          DuckDB, every column VARCHAR
                ->  stg_bhavcopy                          dbt view: renamed and typed
                ->  fct_daily_prices                      dbt incremental, one row per instrument per day
+               ->  int_security_map                      every symbol and ISIN mapped to one security
+               ->  dim_security                          SCD type 2: symbol and ISIN history per security
 NSE actions    ->  data/corporate_actions.csv            splits, bonuses, demergers, in git
                ->  stg_corporate_actions                 dbt view: typed, with the share-count factor
                ->  fct_daily_returns                     the day's change, adjusted for splits and bonuses
@@ -64,6 +66,16 @@ reports the previous close in old ones, so GOODLUCK's 2:1 bonus showed as -65.90
 `fct_daily_returns` divides the previous close by the day's factor, and the movers
 and breadth marts use that. BSE rows are matched to NSE's actions through the ISIN
 both exchanges list that day. `test_split_is_not_a_crash`, `assert_split_days_adjusted`
+
+**A stock keeps its identity through renames and splits.** A split issues a new ISIN
+and keeps the symbol; a rename keeps the ISIN and changes the symbol. Neither key
+alone follows a stock, so `int_security_map` treats symbols and ISINs as nodes of a
+graph, linked whenever a price row shows them together, and gives each connected
+group one `security_id` (a recursive CTE). `dim_security` turns the daily history into
+SCD type 2 versions with `valid_from` and `valid_to`, found with gaps and islands.
+Across July to October: 17 renames, 22 ISIN changes, 3,571 securities.
+`assert_security_one_symbol_per_day`, `assert_dim_security_no_overlap`,
+`test_action_filed_under_a_later_symbol_still_applies`
 
 **A holiday is not an error.** A weekday with no file is recorded as `no_data` and
 retried only inside a 7-day lookback, in case the file was simply late.
@@ -111,11 +123,20 @@ Three checks guard it: `assert_ratio_actions_parsed` (a split or bonus whose sub
 line the parser could not read), `assert_split_days_adjusted` (an adjusted ex-date
 move of 35% or more, which would mean a wrong or doubled factor), and
 `assert_no_unexplained_cliffs`, a warning for any mainboard fall of 45% or more with
-no action behind it. That warning currently lists 24 rows:
+no action behind it. That warning currently lists 22 rows:
 
 - 21 rows (20 stocks) listed only on BSE that day, which NSE's feed does not cover
-- HEG on both exchanges, whose demerger NSE files under its new symbol HEGAM
 - LANCER, -92.61% on NSE on 2026-08-17, with no action in the feed; cause not established
+
+It listed 24 until 2026-10-13. The other two were HEG on both exchanges: NSE files
+HEG's 7 September demerger under HEGAM, the symbol it took on 22 September, so a
+match on symbol missed it. Actions are now matched through `dim_security`'s
+security_id, which links the two.
+
+Why the security graph is built from price files only: NSE's actions feed carries
+ISINs too, but files DTIL's dividend under DVL's ISIN. Used as a link, that row
+merged two companies that trade side by side every day. The one-symbol-per-day test
+caught it.
 
 ## Run it
 
@@ -156,7 +177,5 @@ writing anything: on 2026-10-02 it returned 3,712 NSE rows and 5,163 BSE rows fo
 - The landing zone grows about 470 KB per trading day, roughly 120 MB a year.
 - Exchange holidays are inferred from a missing file, not read from a calendar.
 - Splits and bonuses of BSE-only stocks are not adjusted: the actions come from NSE.
-- A symbol rename hides that stock's actions (HEG to HEGAM). Fixing it needs a
-  symbol history table.
 - Rights issues and dividends are not adjusted. Daily changes on those ex-dates
   include the entitlement leaving the price.
