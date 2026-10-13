@@ -1,8 +1,8 @@
 {
- "generated_at": "2026-10-13T09:47:16+00:00",
+ "generated_at": "2026-10-13T10:21:42+00:00",
  "checks": {
-  "total": 27,
-  "pass": 24,
+  "total": 33,
+  "pass": 30,
   "warn": 3,
   "fail": 0,
   "skipped": 0,
@@ -15,7 +15,7 @@
    {
     "name": "assert_no_unexplained_cliffs",
     "status": "warn",
-    "failures": 24
+    "failures": 22
    },
    {
     "name": "assert_ohlc_consistent_other",
@@ -34,6 +34,11 @@
    },
    {
     "name": "accepted_values_stg_corporate_actions_kind__split__bonus__demerger__rights__dividend__other",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "assert_dim_security_no_overlap",
     "status": "pass",
     "failures": 0
    },
@@ -73,7 +78,22 @@
     "failures": 0
    },
    {
+    "name": "assert_security_one_symbol_per_day",
+    "status": "pass",
+    "failures": 0
+   },
+   {
     "name": "assert_split_days_adjusted",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "not_null_dim_security_security_id",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "not_null_dim_security_valid_from",
     "status": "pass",
     "failures": 0
    },
@@ -89,6 +109,16 @@
    },
    {
     "name": "not_null_fct_daily_returns_split_factor",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "not_null_int_security_map_node_value",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "not_null_int_security_map_security_id",
     "status": "pass",
     "failures": 0
    },
