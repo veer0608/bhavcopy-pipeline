@@ -14,6 +14,7 @@ import duckdb
 import pytest
 
 from pipeline import DBT_DIR
+from pipeline.actions import read_actions, refresh_actions
 from pipeline.ingest import BadFile, ingest_day, raw_path
 from pipeline.load import load
 from pipeline.sources import EXPECTED_COLUMNS
@@ -21,17 +22,23 @@ from pipeline.sources import EXPECTED_COLUMNS
 DAYS = [date(2026, 9, 28), date(2026, 9, 29), date(2026, 9, 30)]
 
 
-def make_csv(source: str, day: date, n: int = 40, bump: float = 0.0, drop: int = 0) -> bytes:
+def make_csv(source: str, day: date, n: int = 40, bump: float = 0.0, drop: int = 0,
+             split: int = 1) -> bytes:
+    """split=k divides SYM0's prices by k, the way an ex-date looks: the
+    previous close stays in old shares, as NSE and BSE publish it."""
     series = "EQ" if source == "NSE" else "A"
     lines = [",".join(EXPECTED_COLUMNS)]
     for i in range(n - drop):
+        prev = round(100 + i + day.day * 0.5 + bump - 0.5, 2)
         close = round(100 + i + day.day * 0.5 + bump, 2)
+        if i == 0 and split > 1:
+            close = round(close / split, 2)
         row = dict.fromkeys(EXPECTED_COLUMNS, "")
         row.update(TradDt=day.isoformat(), BizDt=day.isoformat(), Sgmt="CM", Src=source,
                    FinInstrmTp="STK", FinInstrmId=str(1000 + i), ISIN=f"INE{i:06d}01",
                    TckrSymb=f"SYM{i}", SctySrs=series, FinInstrmNm=f"Company {i}",
                    OpnPric=f"{close - 1:.2f}", HghPric=f"{close + 2:.2f}", LwPric=f"{close - 2:.2f}",
-                   ClsPric=f"{close:.2f}", LastPric=f"{close:.2f}", PrvsClsgPric=f"{close - 0.5:.2f}",
+                   ClsPric=f"{close:.2f}", LastPric=f"{close:.2f}", PrvsClsgPric=f"{prev:.2f}",
                    TtlTradgVol="200000", TtlTrfVal="25000000.00", TtlNbOfTxsExctd="900",
                    SsnId="F1", NewBrdLotQty="1")
         lines.append(",".join(row[c] for c in EXPECTED_COLUMNS))
@@ -162,3 +169,64 @@ def test_corrected_file_restates_its_day(env):
 
     build(wh, "--full-refresh")
     assert fact(wh) == restated
+
+
+SPLIT_SUBJECT = "Face Value Split (Sub-Division) - From Rs 10/- Per Share To Rs 5/- Per Share"
+
+
+def nse_feed(*actions):
+    """A fake NSE actions API. Each action comes back from both feeds, the way
+    the real mf feed repeats rows, so the dedupe is exercised too."""
+    def fetch(start, end):
+        return [(feed, a) for a in actions for feed in ("equities", "mf")]
+    return fetch
+
+
+def returns(warehouse: Path, symbol: str, day: date):
+    con = duckdb.connect(str(warehouse), read_only=True)
+    try:
+        return con.execute("""
+            select exchange, split_factor, pct_change, pct_change_adj from fct_daily_returns
+            where symbol = ? and trade_date = ? order by exchange""", [symbol, day]).fetchall()
+    finally:
+        con.close()
+
+
+def test_split_is_not_a_crash(env):
+    ex, raw, wh = env
+    ex.put("NSE", DAYS[2], split=2)
+    ex.put("BSE", DAYS[2], split=2)
+    actions = raw.parent / "corporate_actions.csv"
+    refresh_actions(DAYS[0], DAYS[2], actions, log=lambda *_: None, fetcher=nse_feed(
+        {"symbol": "SYM0", "series": "EQ", "isin": "INE00000001",
+         "exDate": DAYS[2].strftime("%d-%b-%Y"), "subject": SPLIT_SUBJECT}))
+    assert len(read_actions(actions)) == 1, "the repeated mf row must be dropped"
+
+    manifest = {}
+    ingest_all(ex, raw, manifest)
+    load(wh, raw, manifest, actions=actions, log=lambda *_: None)
+    build(wh)
+
+    for exchange, factor, raw_pct, adj_pct in returns(wh, "SYM0", DAYS[2]):
+        assert factor == 2, f"{exchange}: factor applied once, not squared"
+        assert raw_pct < -49, f"{exchange}: the file reports the split as a fall"
+        assert abs(adj_pct) < 1, f"{exchange}: adjusted, it is an ordinary day"
+
+    con = duckdb.connect(str(wh), read_only=True)
+    losers = con.execute("select symbol from mart_top_movers where direction = 'loser'").fetchall()
+    con.close()
+    assert ("SYM0",) not in losers
+
+
+def test_failed_actions_fetch_keeps_the_file(tmp_path):
+    actions = tmp_path / "corporate_actions.csv"
+    refresh_actions(DAYS[0], DAYS[2], actions, log=lambda *_: None, fetcher=nse_feed(
+        {"symbol": "SYM0", "series": "EQ", "isin": "INE00000001",
+         "exDate": "30-Sep-2026", "subject": SPLIT_SUBJECT}))
+    before = actions.read_bytes()
+
+    def down(start, end):
+        raise OSError("NSE unreachable")
+
+    assert refresh_actions(DAYS[0], DAYS[2], actions, fetcher=down, log=lambda *_: None) == 0
+    assert actions.read_bytes() == before

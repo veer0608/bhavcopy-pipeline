@@ -1,22 +1,26 @@
 -- Biggest liquid mainboard movers on each exchange's latest trade date.
+-- Ranked on the split- and bonus-adjusted change, so a 2:1 bonus is not a
+-- -66% loser. Demerger days are left out: their drop is real for the old
+-- share but has no published ratio to correct it with.
 
 with latest as (
     select exchange, max(trade_date) as trade_date
-    from {{ ref('fct_daily_prices') }}
+    from {{ ref('fct_daily_returns') }}
     group by exchange
 ),
 
 ranked as (
     select
         f.exchange, f.trade_date, f.symbol, f.security_name, f.close_price,
-        f.pct_change, round(f.turnover / 1e7, 2) as turnover_crore,
-        row_number() over (partition by f.exchange order by f.pct_change desc, f.symbol) as gain_rank,
-        row_number() over (partition by f.exchange order by f.pct_change asc, f.symbol)  as loss_rank
-    from {{ ref('fct_daily_prices') }} f
+        f.pct_change_adj as pct_change, round(f.turnover / 1e7, 2) as turnover_crore,
+        row_number() over (partition by f.exchange order by f.pct_change_adj desc, f.symbol) as gain_rank,
+        row_number() over (partition by f.exchange order by f.pct_change_adj asc, f.symbol)  as loss_rank
+    from {{ ref('fct_daily_returns') }} f
     join latest using (exchange, trade_date)
     where f.segment = 'mainboard'
       and f.turnover >= {{ var('liquid_turnover') }}
-      and f.pct_change is not null
+      and f.pct_change_adj is not null
+      and f.unadjusted_action is null
 )
 
 select

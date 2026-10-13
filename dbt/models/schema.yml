@@ -23,6 +23,19 @@ models:
       - name: close_price
         data_tests: [not_null]
 
+  - name: stg_corporate_actions
+    description: NSE corporate actions, typed, with the share-count factor for splits and bonuses.
+    columns:
+      - name: symbol
+        data_tests: [not_null]
+      - name: ex_date
+        data_tests: [not_null]
+      - name: kind
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["split", "bonus", "demerger", "rights", "dividend", "other"]
+
   - name: fct_daily_prices
     description: One row per instrument per exchange per trade date. Incremental, replaced by exchange-day.
     columns:
@@ -33,6 +46,15 @@ models:
           - accepted_values:
               arguments:
                 values: ["mainboard", "sme", "other"]
+
+  - name: fct_daily_returns
+    description: The day's change per instrument, corrected for splits and bonuses. Same grain as fct_daily_prices.
+    columns:
+      - name: price_key
+        description: Unique here too, so the BSE-to-NSE ISIN match can never fan a row out.
+        data_tests: [unique, not_null]
+      - name: split_factor
+        data_tests: [not_null]
 
   - name: mart_market_breadth
     description: Advancers, decliners and turnover per exchange per day, mainboard equities only.

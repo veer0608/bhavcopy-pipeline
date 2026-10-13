@@ -9,3 +9,5 @@ sources:
         description: One row per instrument per exchange per trade date. Every source column is VARCHAR.
       - name: loaded_files
         description: One row per landed file, with its sha256 and row count.
+      - name: corporate_actions
+        description: NSE corporate actions from data/corporate_actions.csv, landed by pipeline/actions.py. Every column VARCHAR.
