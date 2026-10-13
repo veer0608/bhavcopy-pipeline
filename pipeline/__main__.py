@@ -1,10 +1,11 @@
 """python -m pipeline <command>
 
   ingest   land bhavcopy files for a date, a range, or the last N days
+  actions  land NSE corporate actions (splits, bonuses) for an ex-date range
   load     load landed files into the DuckDB warehouse
   build    run dbt build (models + tests)
   export   write the dashboard's JSON from the marts
-  run      ingest (lookback) + load + build + export: the daily job
+  run      ingest (lookback) + actions + load + build + export: the daily job
 """
 import argparse
 import os
@@ -13,9 +14,15 @@ import sys
 from datetime import date, timedelta
 
 from . import DBT_DIR, WAREHOUSE
+from .actions import refresh_actions
 from .ingest import ingest_range
 from .load import load
 from .sources import SOURCES
+
+# The daily job fetches actions with ex-dates in this window around today.
+# Announcements come weeks ahead, so a missed run is covered by the next one.
+ACTIONS_BEHIND = timedelta(days=30)
+ACTIONS_AHEAD = timedelta(days=30)
 
 
 def dbt_build(full_refresh: bool = False) -> int:
@@ -44,6 +51,10 @@ def main() -> int:
     ing.add_argument("--to", dest="end", type=date.fromisoformat)
     ing.add_argument("--force", action="store_true", help="re-fetch days already landed")
 
+    act = sub.add_parser("actions")
+    act.add_argument("--from", dest="start", type=date.fromisoformat, required=True)
+    act.add_argument("--to", dest="end", type=date.fromisoformat, required=True)
+
     sub.add_parser("load")
     b = sub.add_parser("build")
     b.add_argument("--full-refresh", action="store_true")
@@ -61,6 +72,9 @@ def main() -> int:
             start = a.start or end - timedelta(days=a.lookback)
         ingest_range(a.source, start, end, force=a.force, lookback_days=a.lookback)
         return 0
+    if a.cmd == "actions":
+        refresh_actions(a.start, a.end)
+        return 0
     if a.cmd == "load":
         load()
         return 0
@@ -73,6 +87,7 @@ def main() -> int:
     if a.cmd == "run":
         from .export import export
         ingest_range(a.source, today - timedelta(days=a.lookback), today, lookback_days=a.lookback)
+        refresh_actions(today - ACTIONS_BEHIND, today + ACTIONS_AHEAD)
         load()
         rc = dbt_build()
         # Export even when tests fail: the dashboard is where a failure shows up.
