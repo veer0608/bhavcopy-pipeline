@@ -13,6 +13,8 @@ from pathlib import Path
 import duckdb
 
 from . import RAW_DIR, WAREHOUSE
+from .actions import ACTIONS
+from .actions import FIELDS as ACTION_FIELDS
 from .ingest import raw_path, read_manifest
 from .sources import EXPECTED_COLUMNS
 
@@ -29,11 +31,24 @@ create table if not exists raw.loaded_files (
 """
 
 
+def load_actions(con, actions: Path) -> int:
+    """Replace raw.corporate_actions with the landed file. It is a few
+    thousand rows, so it is reloaded whole every run."""
+    if actions.exists():
+        con.execute("create or replace table raw.corporate_actions as "
+                    "select * from read_csv(?, header = true, all_varchar = true)", [str(actions)])
+    else:
+        con.execute("create or replace table raw.corporate_actions "
+                    f"({', '.join(f'{c} varchar' for c in ACTION_FIELDS)})")
+    return con.execute("select count(*) from raw.corporate_actions").fetchone()[0]
+
+
 def load(warehouse: Path = WAREHOUSE, raw_dir: Path = RAW_DIR, manifest: dict | None = None,
-         log=print) -> int:
+         actions: Path = ACTIONS, log=print) -> int:
     manifest = read_manifest() if manifest is None else manifest
     con = duckdb.connect(str(warehouse))
     con.execute(DDL)
+    log(f"loaded {load_actions(con, actions)} corporate actions")
     done = {(s, d.isoformat()): h for s, d, h in
             con.execute("select source, trade_date, sha256 from raw.loaded_files").fetchall()}
     # One timestamp for the whole batch: dbt's incremental models pick up
