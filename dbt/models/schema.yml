@@ -47,6 +47,22 @@ models:
               arguments:
                 values: ["mainboard", "sme", "other"]
 
+  - name: int_security_map
+    description: Every NSE symbol and ISIN mapped to one security_id, linking renames and splits.
+    columns:
+      - name: node_value
+        data_tests: [not_null]
+      - name: security_id
+        data_tests: [not_null]
+
+  - name: dim_security
+    description: SCD type 2. One row per period over which a security's NSE symbol and ISIN stayed the same.
+    columns:
+      - name: security_id
+        data_tests: [not_null]
+      - name: valid_from
+        data_tests: [not_null]
+
   - name: fct_daily_returns
     description: The day's change per instrument, corrected for splits and bonuses. Same grain as fct_daily_prices.
     columns:
