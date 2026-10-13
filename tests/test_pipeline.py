@@ -23,9 +23,10 @@ DAYS = [date(2026, 9, 28), date(2026, 9, 29), date(2026, 9, 30)]
 
 
 def make_csv(source: str, day: date, n: int = 40, bump: float = 0.0, drop: int = 0,
-             split: int = 1) -> bytes:
+             split: int = 1, rename: str | None = None) -> bytes:
     """split=k divides SYM0's prices by k, the way an ex-date looks: the
-    previous close stays in old shares, as NSE and BSE publish it."""
+    previous close stays in old shares, as NSE and BSE publish it.
+    rename lists SYM0 under a new symbol, keeping its ISIN."""
     series = "EQ" if source == "NSE" else "A"
     lines = [",".join(EXPECTED_COLUMNS)]
     for i in range(n - drop):
@@ -36,7 +37,7 @@ def make_csv(source: str, day: date, n: int = 40, bump: float = 0.0, drop: int =
         row = dict.fromkeys(EXPECTED_COLUMNS, "")
         row.update(TradDt=day.isoformat(), BizDt=day.isoformat(), Sgmt="CM", Src=source,
                    FinInstrmTp="STK", FinInstrmId=str(1000 + i), ISIN=f"INE{i:06d}01",
-                   TckrSymb=f"SYM{i}", SctySrs=series, FinInstrmNm=f"Company {i}",
+                   TckrSymb=(rename if i == 0 and rename else f"SYM{i}"), SctySrs=series, FinInstrmNm=f"Company {i}",
                    OpnPric=f"{close - 1:.2f}", HghPric=f"{close + 2:.2f}", LwPric=f"{close - 2:.2f}",
                    ClsPric=f"{close:.2f}", LastPric=f"{close:.2f}", PrvsClsgPric=f"{prev:.2f}",
                    TtlTradgVol="200000", TtlTrfVal="25000000.00", TtlNbOfTxsExctd="900",
@@ -230,3 +231,32 @@ def test_failed_actions_fetch_keeps_the_file(tmp_path):
 
     assert refresh_actions(DAYS[0], DAYS[2], actions, fetcher=down, log=lambda *_: None) == 0
     assert actions.read_bytes() == before
+
+
+def test_action_filed_under_a_later_symbol_still_applies(env):
+    """HEG's case: NSE filed its demerger under HEGAM, the symbol it took two
+    weeks after the ex-date. Here SYM0 splits on day 2, is renamed SYM0NEW on
+    day 3, and the split is filed under SYM0NEW."""
+    ex, raw, wh = env
+    ex.put("NSE", DAYS[1], split=2)
+    ex.put("BSE", DAYS[1], split=2)
+    ex.put("NSE", DAYS[2], rename="SYM0NEW")
+    actions = raw.parent / "corporate_actions.csv"
+    refresh_actions(DAYS[0], DAYS[2], actions, log=lambda *_: None, fetcher=nse_feed(
+        {"symbol": "SYM0NEW", "series": "EQ", "isin": "INE00000001",
+         "exDate": DAYS[1].strftime("%d-%b-%Y"), "subject": SPLIT_SUBJECT}))
+
+    manifest = {}
+    ingest_all(ex, raw, manifest)
+    load(wh, raw, manifest, actions=actions, log=lambda *_: None)
+    build(wh)
+
+    rows = returns(wh, "SYM0", DAYS[1])
+    assert [(e, f) for e, f, _, _ in rows] == [("BSE", 2), ("NSE", 2)]
+
+    con = duckdb.connect(str(wh), read_only=True)
+    versions = con.execute("""
+        select symbol, valid_from, valid_to from dim_security
+        where security_id = 'INE00000001' order by version""").fetchall()
+    con.close()
+    assert versions == [("SYM0", DAYS[0], DAYS[2]), ("SYM0NEW", DAYS[2], None)]
