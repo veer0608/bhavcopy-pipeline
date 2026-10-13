@@ -1,9 +1,9 @@
 {
- "generated_at": "2026-10-12T23:08:15+00:00",
+ "generated_at": "2026-10-13T09:47:16+00:00",
  "checks": {
-  "total": 18,
-  "pass": 16,
-  "warn": 2,
+  "total": 27,
+  "pass": 24,
+  "warn": 3,
   "fail": 0,
   "skipped": 0,
   "results": [
@@ -11,6 +11,11 @@
     "name": "assert_exchanges_agree_on_close",
     "status": "warn",
     "failures": 150
+   },
+   {
+    "name": "assert_no_unexplained_cliffs",
+    "status": "warn",
+    "failures": 24
    },
    {
     "name": "assert_ohlc_consistent_other",
@@ -24,6 +29,11 @@
    },
    {
     "name": "accepted_values_stg_bhavcopy_exchange__NSE__BSE",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "accepted_values_stg_corporate_actions_kind__split__bonus__demerger__rights__dividend__other",
     "status": "pass",
     "failures": 0
    },
@@ -53,12 +63,32 @@
     "failures": 0
    },
    {
+    "name": "assert_ratio_actions_parsed",
+    "status": "pass",
+    "failures": 0
+   },
+   {
     "name": "assert_row_count_stable",
     "status": "pass",
     "failures": 0
    },
    {
+    "name": "assert_split_days_adjusted",
+    "status": "pass",
+    "failures": 0
+   },
+   {
     "name": "not_null_fct_daily_prices_price_key",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "not_null_fct_daily_returns_price_key",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "not_null_fct_daily_returns_split_factor",
     "status": "pass",
     "failures": 0
    },
@@ -93,7 +123,22 @@
     "failures": 0
    },
    {
+    "name": "not_null_stg_corporate_actions_ex_date",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "not_null_stg_corporate_actions_symbol",
+    "status": "pass",
+    "failures": 0
+   },
+   {
     "name": "unique_fct_daily_prices_price_key",
+    "status": "pass",
+    "failures": 0
+   },
+   {
+    "name": "unique_fct_daily_returns_price_key",
     "status": "pass",
     "failures": 0
    }
@@ -101,7 +146,8 @@
  },
  "holidays": [
   "2026-09-14",
-  "2026-10-02"
+  "2026-10-02",
+  "2026-10-13"
  ],
  "coverage": [
   {
@@ -886,8 +932,8 @@
    "exchange": "BSE",
    "trade_date": "2026-07-03",
    "securities_traded": 4031,
-   "advancers": 2000,
-   "decliners": 1875,
+   "advancers": 2001,
+   "decliners": 1874,
    "unchanged": 155,
    "turnover_crore": 9992.48,
    "median_pct_change": 0.0
@@ -896,11 +942,11 @@
    "exchange": "NSE",
    "trade_date": "2026-07-03",
    "securities_traded": 2706,
-   "advancers": 1359,
-   "decliners": 1302,
+   "advancers": 1362,
+   "decliners": 1299,
    "unchanged": 45,
    "turnover_crore": 131184.47,
-   "median_pct_change": 0.0111
+   "median_pct_change": 0.0169
   },
   {
    "exchange": "BSE",
@@ -986,21 +1032,21 @@
    "exchange": "BSE",
    "trade_date": "2026-07-10",
    "securities_traded": 4040,
-   "advancers": 2593,
-   "decliners": 1309,
+   "advancers": 2595,
+   "decliners": 1307,
    "unchanged": 138,
    "turnover_crore": 9359.92,
-   "median_pct_change": 0.6806
+   "median_pct_change": 0.6861
   },
   {
    "exchange": "NSE",
    "trade_date": "2026-07-10",
    "securities_traded": 2705,
-   "advancers": 1942,
-   "decliners": 732,
+   "advancers": 1944,
+   "decliners": 730,
    "unchanged": 31,
    "turnover_crore": 121720.06,
-   "median_pct_change": 0.8233
+   "median_pct_change": 0.825
   },
   {
    "exchange": "BSE",
@@ -1126,8 +1172,8 @@
    "exchange": "BSE",
    "trade_date": "2026-07-21",
    "securities_traded": 4015,
-   "advancers": 1911,
-   "decliners": 1965,
+   "advancers": 1912,
+   "decliners": 1964,
    "unchanged": 136,
    "turnover_crore": 8832.63,
    "median_pct_change": 0.0
@@ -1136,11 +1182,11 @@
    "exchange": "NSE",
    "trade_date": "2026-07-21",
    "securities_traded": 2711,
-   "advancers": 1370,
-   "decliners": 1302,
+   "advancers": 1371,
+   "decliners": 1301,
    "unchanged": 39,
    "turnover_crore": 112906.01,
-   "median_pct_change": 0.0134
+   "median_pct_change": 0.0135
   },
   {
    "exchange": "BSE",
@@ -1186,8 +1232,8 @@
    "exchange": "BSE",
    "trade_date": "2026-07-24",
    "securities_traded": 4006,
-   "advancers": 1833,
-   "decliners": 2000,
+   "advancers": 1834,
+   "decliners": 1999,
    "unchanged": 172,
    "turnover_crore": 8493.32,
    "median_pct_change": 0.0
@@ -1196,11 +1242,11 @@
    "exchange": "NSE",
    "trade_date": "2026-07-24",
    "securities_traded": 2715,
-   "advancers": 1246,
-   "decliners": 1422,
+   "advancers": 1247,
+   "decliners": 1421,
    "unchanged": 47,
    "turnover_crore": 109990.04,
-   "median_pct_change": -0.0711
+   "median_pct_change": -0.0705
   },
   {
    "exchange": "BSE",
@@ -1226,18 +1272,18 @@
    "exchange": "BSE",
    "trade_date": "2026-07-28",
    "securities_traded": 4021,
-   "advancers": 1354,
-   "decliners": 2539,
+   "advancers": 1355,
+   "decliners": 2538,
    "unchanged": 127,
    "turnover_crore": 8117.13,
-   "median_pct_change": -0.6512
+   "median_pct_change": -0.651
   },
   {
    "exchange": "NSE",
    "trade_date": "2026-07-28",
    "securities_traded": 2717,
-   "advancers": 793,
-   "decliners": 1882,
+   "advancers": 794,
+   "decliners": 1881,
    "unchanged": 42,
    "turnover_crore": 124190.75,
    "median_pct_change": -0.7134
@@ -1296,11 +1342,11 @@
    "exchange": "NSE",
    "trade_date": "2026-07-31",
    "securities_traded": 2720,
-   "advancers": 1669,
-   "decliners": 1010,
+   "advancers": 1670,
+   "decliners": 1009,
    "unchanged": 41,
    "turnover_crore": 130561.31,
-   "median_pct_change": 0.3729
+   "median_pct_change": 0.3739
   },
   {
    "exchange": "BSE",
@@ -1356,11 +1402,11 @@
    "exchange": "NSE",
    "trade_date": "2026-08-05",
    "securities_traded": 2731,
-   "advancers": 1578,
-   "decliners": 1112,
+   "advancers": 1579,
+   "decliners": 1111,
    "unchanged": 41,
    "turnover_crore": 130698.67,
-   "median_pct_change": 0.2309
+   "median_pct_change": 0.2313
   },
   {
    "exchange": "BSE",
@@ -1586,8 +1632,8 @@
    "exchange": "BSE",
    "trade_date": "2026-08-21",
    "securities_traded": 4103,
-   "advancers": 1958,
-   "decliners": 1967,
+   "advancers": 1959,
+   "decliners": 1966,
    "unchanged": 177,
    "turnover_crore": 9467.78,
    "median_pct_change": 0.0
@@ -1596,8 +1642,8 @@
    "exchange": "NSE",
    "trade_date": "2026-08-21",
    "securities_traded": 2892,
-   "advancers": 1441,
-   "decliners": 1388,
+   "advancers": 1442,
+   "decliners": 1387,
    "unchanged": 63,
    "turnover_crore": 109708.76,
    "median_pct_change": 0.0
@@ -1606,41 +1652,41 @@
    "exchange": "BSE",
    "trade_date": "2026-08-24",
    "securities_traded": 4203,
-   "advancers": 1776,
-   "decliners": 2251,
+   "advancers": 1777,
+   "decliners": 2250,
    "unchanged": 174,
    "turnover_crore": 10928.97,
-   "median_pct_change": -0.1593
+   "median_pct_change": -0.157
   },
   {
    "exchange": "NSE",
    "trade_date": "2026-08-24",
    "securities_traded": 2910,
-   "advancers": 1273,
-   "decliners": 1604,
+   "advancers": 1274,
+   "decliners": 1603,
    "unchanged": 33,
    "turnover_crore": 108743.81,
-   "median_pct_change": -0.1646
+   "median_pct_change": -0.1642
   },
   {
    "exchange": "BSE",
    "trade_date": "2026-08-25",
    "securities_traded": 4072,
-   "advancers": 1806,
-   "decliners": 2136,
+   "advancers": 1807,
+   "decliners": 2135,
    "unchanged": 128,
    "turnover_crore": 7551.86,
-   "median_pct_change": -0.1217
+   "median_pct_change": -0.1212
   },
   {
    "exchange": "NSE",
    "trade_date": "2026-08-25",
    "securities_traded": 2894,
-   "advancers": 1291,
-   "decliners": 1566,
+   "advancers": 1292,
+   "decliners": 1565,
    "unchanged": 37,
    "turnover_crore": 106188.9,
-   "median_pct_change": -0.1351
+   "median_pct_change": -0.1344
   },
   {
    "exchange": "BSE",
@@ -1696,11 +1742,11 @@
    "exchange": "NSE",
    "trade_date": "2026-08-28",
    "securities_traded": 2900,
-   "advancers": 1500,
-   "decliners": 1348,
+   "advancers": 1502,
+   "decliners": 1346,
    "unchanged": 52,
    "turnover_crore": 106404.45,
-   "median_pct_change": 0.045
+   "median_pct_change": 0.0475
   },
   {
    "exchange": "BSE",
@@ -1886,11 +1932,11 @@
    "exchange": "BSE",
    "trade_date": "2026-09-11",
    "securities_traded": 4088,
-   "advancers": 1562,
-   "decliners": 2378,
+   "advancers": 1563,
+   "decliners": 2377,
    "unchanged": 147,
    "turnover_crore": 8920.17,
-   "median_pct_change": -0.3835
+   "median_pct_change": -0.3825
   },
   {
    "exchange": "NSE",
@@ -1900,7 +1946,7 @@
    "decliners": 1808,
    "unchanged": 51,
    "turnover_crore": 113786.13,
-   "median_pct_change": -0.4476
+   "median_pct_change": -0.4443
   },
   {
    "exchange": "BSE",
@@ -2006,21 +2052,21 @@
    "exchange": "BSE",
    "trade_date": "2026-09-22",
    "securities_traded": 4096,
-   "advancers": 1857,
-   "decliners": 2091,
+   "advancers": 1858,
+   "decliners": 2090,
    "unchanged": 148,
    "turnover_crore": 8893.44,
-   "median_pct_change": -0.0489
+   "median_pct_change": -0.0481
   },
   {
    "exchange": "NSE",
    "trade_date": "2026-09-22",
    "securities_traded": 2921,
-   "advancers": 1250,
-   "decliners": 1616,
+   "advancers": 1251,
+   "decliners": 1615,
    "unchanged": 55,
    "turnover_crore": 103520.33,
-   "median_pct_change": -0.1771
+   "median_pct_change": -0.177
   },
   {
    "exchange": "BSE",
@@ -2086,18 +2132,18 @@
    "exchange": "BSE",
    "trade_date": "2026-09-28",
    "securities_traded": 4223,
-   "advancers": 1070,
-   "decliners": 2986,
+   "advancers": 1071,
+   "decliners": 2985,
    "unchanged": 166,
    "turnover_crore": 8706.37,
-   "median_pct_change": -1.3306
+   "median_pct_change": -1.3299
   },
   {
    "exchange": "NSE",
    "trade_date": "2026-09-28",
    "securities_traded": 2944,
-   "advancers": 548,
-   "decliners": 2361,
+   "advancers": 549,
+   "decliners": 2360,
    "unchanged": 35,
    "turnover_crore": 99891.98,
    "median_pct_change": -1.5734
@@ -2186,18 +2232,18 @@
    "exchange": "BSE",
    "trade_date": "2026-10-06",
    "securities_traded": 4123,
-   "advancers": 2537,
-   "decliners": 1420,
+   "advancers": 2538,
+   "decliners": 1419,
    "unchanged": 164,
    "turnover_crore": 9018.36,
-   "median_pct_change": 0.6835
+   "median_pct_change": 0.685
   },
   {
    "exchange": "NSE",
    "trade_date": "2026-10-06",
    "securities_traded": 2942,
-   "advancers": 2039,
-   "decliners": 862,
+   "advancers": 2040,
+   "decliners": 861,
    "unchanged": 41,
    "turnover_crore": 109322.3,
    "median_pct_change": 0.8316
@@ -2246,21 +2292,21 @@
    "exchange": "BSE",
    "trade_date": "2026-10-09",
    "securities_traded": 4115,
-   "advancers": 2239,
-   "decliners": 1721,
+   "advancers": 2241,
+   "decliners": 1719,
    "unchanged": 154,
    "turnover_crore": 9064.12,
-   "median_pct_change": 0.2259
+   "median_pct_change": 0.2269
   },
   {
    "exchange": "NSE",
    "trade_date": "2026-10-09",
    "securities_traded": 2938,
-   "advancers": 1766,
-   "decliners": 1125,
+   "advancers": 1768,
+   "decliners": 1123,
    "unchanged": 47,
    "turnover_crore": 100049.02,
-   "median_pct_change": 0.4085
+   "median_pct_change": 0.4111
   },
   {
    "exchange": "BSE",
