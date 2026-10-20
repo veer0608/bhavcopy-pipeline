@@ -15,7 +15,7 @@ Measured on 2026-10-02, on the data in this repo:
 |---|---|
 | Trading days ingested | 66 per exchange, 2026-07-01 to 2026-10-01 |
 | Rows loaded | 563,111 (NSE 234,475, BSE 328,636) |
-| dbt data tests | 18: 16 pass, 2 warn, 0 fail |
+| dbt data tests | 33: 30 pass, 3 warn, 0 fail |
 | Unit tests | 6 pass, no network needed |
 | Split and bonus adjustment | added 2026-10-13, see below |
 | Exchange holidays detected | 2 (2026-09-14, 2026-10-02) |
