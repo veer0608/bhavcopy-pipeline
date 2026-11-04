@@ -1313,9 +1313,12 @@ equities,SILVERTUC,EQ,INE625X01018,2026-11-04,dividend,,,Interim Dividend - Re 0
 equities,SUVIDHAA,EQ,INE018401013,2026-11-04,rights,,,Rights 3:8 @ Premium Re 0.50/-
 equities,SYMPHONY,EQ,INE225D01019,2026-11-04,dividend,,,Interim Dividend - Rs 2 Per Share
 equities,VAIBHAVGBL,EQ,INE884A01019,2026-11-04,dividend,,,Interim Dividend - Rs 1.50 Per Share
+equities,BAGMANE,RR,INE2OVN25015,2026-11-05,dividend,,,Distribution - Rs 1.55 Per Unit Consists Of Rs 1.22 Per Unit As Dividend & Re 0.33 Per Unit As Interest
+equities,BIRET,RR,INE0FDU25010,2026-11-05,dividend,,,Distribution - Rs 5.70 Per Unit Consists Of Rs 1.72 Per Unit As Dividend/ Rs 1.54 Per Unit As Interest/Rs 2.24 Per Unit Repayemt Of Spv And Ncd/ Re 0.20 Per Unit Interest On Fd
 equities,BSOFT,EQ,INE836A01035,2026-11-05,dividend,,,Interim Dividend - Rs 3 Per Share
 equities,ENGINERSIN,EQ,INE510A01010,2026-11-05,dividend,,,Interim Dividend - Rs 1.50 Per Share
 equities,GNRL,EQ,INE207H01018,2026-11-05,split,10,1,Face Value Split (Sub-Division) - From Rs 10/- Per Share To Re 1/- Per Share
+equities,INDTONER,EQ,INE826B01026,2026-11-05,dividend,,,Interim Dividend - Rs 1.20 Per Share
 equities,KRISHNADEF,EQ,INE0J5601015,2026-11-05,dividend,,,Interim Dividend - Re 0.75 Per Share
 equities,MINDSPACE,RR,INE0CCU25019,2026-11-05,dividend,,,Distribution - Rs 6.67 Per Unit Consisting Of Dividend - Rs 4.17 Per Unit/ Repayment Of Spv Debt - Rs 2.50 Per Unit
 equities,NAVINFLUOR,EQ,INE048G01018,2026-11-05,dividend,,,Interim Dividend - Rs 8 Per Share
@@ -1345,8 +1348,13 @@ equities,POWERGRID,EQ,INE752E01010,2026-11-06,dividend,,,Interim Dividend - Rs 3
 equities,QUESS,EQ,INE615P01015,2026-11-06,dividend,,,Interim Dividend - Rs 5 Per Share
 equities,RKFORGE,EQ,INE399G01015,2026-11-06,dividend,,,Interim Dividend - Rs 2 Per Share
 equities,SUNDRMFAST,EQ,INE387A01021,2026-11-06,dividend,,,Interim Dividend - Rs 4.05 Per Share
+equities,694GS2036,GS,IN0020260025,2026-11-09,other,,,Interest Payment
+equities,824GS2033,GS,IN0020140052,2026-11-09,other,,,Interest Payment
+equities,GANESHCP,EQ,INE652V01016,2026-11-09,dividend,,,Interim Dividend - Rs 3.70 Per Share
+equities,METROPOLIS,EQ,INE112L01020,2026-11-09,dividend,,,Interim Dividend - Re 1 Per Share
 equities,574GS2026,GS,IN0020210186,2026-11-11,other,,,Redemption
 equities,CONCOR,EQ,INE111A01017,2026-11-11,dividend,,,Interim Dividend - Rs 1.90 Per Share
+equities,JYOTHYLAB,EQ,INE668F01031,2026-11-11,other,,,Buy Back
 equities,SGBNOV26,GB,IN0020180314,2026-11-11,other,,,Redemption
 equities,HINDUNILVR,EQ,INE030A01027,2026-11-12,dividend,,,Interim Dividend - Rs 19 Per Share
 equities,CAMS,EQ,INE596I01012,2026-11-13,dividend,,,Interim Dividend - Rs 3.25 Per Share
