@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-05T22:10:52+00:00",
+ "generated_at": "2026-11-06T21:43:53+00:00",
  "checks": {
   "total": 33,
   "pass": 30,
@@ -10,7 +10,7 @@
    {
     "name": "assert_exchanges_agree_on_close",
     "status": "warn",
-    "failures": 163
+    "failures": 164
    },
    {
     "name": "assert_no_unexplained_cliffs",
@@ -183,16 +183,16 @@
   {
    "exchange": "BSE",
    "first_date": "2026-07-01",
-   "last_date": "2026-11-05",
-   "days": 89,
-   "rows": 445896
+   "last_date": "2026-11-06",
+   "days": 90,
+   "rows": 450955
   },
   {
    "exchange": "NSE",
    "first_date": "2026-07-01",
-   "last_date": "2026-11-05",
-   "days": 89,
-   "rows": 319378
+   "last_date": "2026-11-06",
+   "days": 90,
+   "rows": 323093
   }
  ],
  "files": [
@@ -1085,6 +1085,16 @@
    "exchange": "NSE",
    "trade_date": "2026-11-05",
    "rows": 3726
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "rows": 5059
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "rows": 3715
   }
  ],
  "breadth": [
@@ -2867,6 +2877,26 @@
    "unchanged": 35,
    "turnover_crore": 170478.05,
    "median_pct_change": 1.1841
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "securities_traded": 4144,
+   "advancers": 1574,
+   "decliners": 2408,
+   "unchanged": 160,
+   "turnover_crore": 15360.13,
+   "median_pct_change": -0.4745
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "securities_traded": 2980,
+   "advancers": 1066,
+   "decliners": 1867,
+   "unchanged": 47,
+   "turnover_crore": 151976.7,
+   "median_pct_change": -0.629
   }
  ],
  "reconciliation": [
@@ -3492,448 +3522,455 @@
    "median_bps": 8.39,
    "p99_bps": 70.39,
    "over_200bps": 0
+  },
+  {
+   "trade_date": "2026-11-06",
+   "pairs": 761,
+   "median_bps": 7.33,
+   "p99_bps": 74.01,
+   "over_200bps": 1
   }
  ],
  "movers": [
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "gainer",
    "rank": 1,
-   "symbol": "TONBO",
-   "security_name": "TONBO IMAGING INDIA LIMITED",
-   "close_price": 1533.65,
-   "pct_change": 19.9992,
-   "turnover_crore": 202.55
+   "symbol": "MMFL",
+   "security_name": "M.M.FORGINGS LTD.",
+   "close_price": 630.45,
+   "pct_change": 19.9943,
+   "turnover_crore": 27.17
   },
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "gainer",
-   "rank": 2,
-   "symbol": "POKARNA",
-   "security_name": "POKARNA LTD.",
-   "close_price": 814.6,
-   "pct_change": 19.9971,
-   "turnover_crore": 11.14
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 3,
-   "symbol": "OPTIFIN",
-   "security_name": "Optimus Finance Limited",
-   "close_price": 19.81,
-   "pct_change": 19.9879,
-   "turnover_crore": 1.17
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 4,
-   "symbol": "TRIGYN",
-   "security_name": "TRIGYN TECHNOLOGIES LTD.",
-   "close_price": 62.21,
-   "pct_change": 18.9029,
-   "turnover_crore": 1.02
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 5,
-   "symbol": "GYFTR",
-   "security_name": "GYFTR LIMITED",
-   "close_price": 211.25,
-   "pct_change": 15.4372,
-   "turnover_crore": 6.89
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 6,
-   "symbol": "IXIGO",
-   "security_name": "Le Travenues Technology Limite",
-   "close_price": 163.85,
-   "pct_change": 13.1952,
-   "turnover_crore": 10.54
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 7,
-   "symbol": "PDSL",
-   "security_name": "PDS LIMITED",
-   "close_price": 403.3,
-   "pct_change": 12.1992,
-   "turnover_crore": 27.63
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 8,
-   "symbol": "UNOMINDA",
-   "security_name": "UNO Minda Limited",
-   "close_price": 1334.0,
-   "pct_change": 11.4546,
-   "turnover_crore": 51.9
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 9,
-   "symbol": "MBEL",
-   "security_name": "M & B ENGINEERING LIMITED",
-   "close_price": 288.8,
-   "pct_change": 11.1197,
-   "turnover_crore": 14.08
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 10,
-   "symbol": "TARC",
-   "security_name": "TARC LIMITED",
-   "close_price": 125.45,
-   "pct_change": 11.0668,
-   "turnover_crore": 7.42
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "loser",
-   "rank": 1,
-   "symbol": "PIIND",
-   "security_name": "P.I.INDUSTRIES LTD.",
-   "close_price": 1774.3,
-   "pct_change": -18.8632,
-   "turnover_crore": 112.5
-  },
-  {
-   "exchange": "BSE",
-   "trade_date": "2026-11-05",
-   "direction": "loser",
    "rank": 2,
    "symbol": "CCDL",
    "security_name": "Consecutive Commodities Limite",
-   "close_price": 0.83,
-   "pct_change": -18.6275,
-   "turnover_crore": 1.81
+   "close_price": 0.99,
+   "pct_change": 19.2771,
+   "turnover_crore": 1.26
   },
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 3,
+   "symbol": "SYMBIOTEC",
+   "security_name": "SYMBIOTEC PHARMALAB LIMITED",
+   "close_price": 1513.65,
+   "pct_change": 19.1006,
+   "turnover_crore": 59.65
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 4,
+   "symbol": "AERPACE",
+   "security_name": "Aerpace Industries Limited",
+   "close_price": 59.64,
+   "pct_change": 16.3027,
+   "turnover_crore": 21.86
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 5,
+   "symbol": "IKIO",
+   "security_name": "IKIO Technologies Limited",
+   "close_price": 198.05,
+   "pct_change": 14.2486,
+   "turnover_crore": 10.41
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 6,
+   "symbol": "IVALUE",
+   "security_name": "IVALUE INFOSOLUTIONS LIMITED",
+   "close_price": 220.65,
+   "pct_change": 13.7664,
+   "turnover_crore": 4.74
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 7,
+   "symbol": "RAMKY",
+   "security_name": "RAMKY INFRASTRUCTURE LTD.",
+   "close_price": 391.65,
+   "pct_change": 12.7213,
+   "turnover_crore": 6.16
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 8,
+   "symbol": "TTML",
+   "security_name": "TATA TELESERVICES (MAHARASHTRA",
+   "close_price": 39.73,
+   "pct_change": 12.1683,
+   "turnover_crore": 30.47
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 9,
+   "symbol": "SAILIFE",
+   "security_name": "Sai Life Sciences Limited",
+   "close_price": 1785.0,
+   "pct_change": 11.8281,
+   "turnover_crore": 164.13
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 10,
+   "symbol": "MTNL",
+   "security_name": "MAHANAGAR TELEPHONE NIGAM LTD.",
+   "close_price": 26.82,
+   "pct_change": 11.1019,
+   "turnover_crore": 8.1
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "direction": "loser",
+   "rank": 1,
+   "symbol": "SUPRIYA",
+   "security_name": "Supriya Lifescience Limited",
+   "close_price": 695.9,
+   "pct_change": -19.9563,
+   "turnover_crore": 9.89
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
+   "direction": "loser",
+   "rank": 2,
+   "symbol": "EBGNG",
+   "security_name": "GNG Electronics Limited",
+   "close_price": 584.1,
+   "pct_change": -19.9369,
+   "turnover_crore": 15.08
+  },
+  {
+   "exchange": "BSE",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 3,
-   "symbol": "VALIANTORG",
-   "security_name": "Valiant Organics Limited",
-   "close_price": 369.7,
-   "pct_change": -14.6485,
-   "turnover_crore": 1.7
+   "symbol": "THERMAX",
+   "security_name": "THERMAX LTD.",
+   "close_price": 2743.85,
+   "pct_change": -17.4161,
+   "turnover_crore": 44.95
   },
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 4,
-   "symbol": "CUMMINSIND",
-   "security_name": "CUMMINS INDIA LTD.",
-   "close_price": 4069.05,
-   "pct_change": -14.3232,
-   "turnover_crore": 100.52
+   "symbol": "RPTECH",
+   "security_name": "Rashi Peripherals Limited",
+   "close_price": 738.2,
+   "pct_change": -14.654,
+   "turnover_crore": 7.44
   },
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 5,
-   "symbol": "APTUS",
-   "security_name": "Aptus Value Housing Finance In",
-   "close_price": 180.2,
-   "pct_change": -12.6726,
-   "turnover_crore": 27.07
+   "symbol": "TDPOWERSYS",
+   "security_name": "T D POWER SYSTEMS LTD.",
+   "close_price": 576.65,
+   "pct_change": -13.8106,
+   "turnover_crore": 45.2
   },
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 6,
-   "symbol": "KIRLOSENG",
-   "security_name": "KIRLOSKAR OIL ENGINES LTD.",
-   "close_price": 1593.05,
-   "pct_change": -11.7032,
-   "turnover_crore": 39.01
+   "symbol": "KINGFA",
+   "security_name": "Kingfa Science & Technology (I",
+   "close_price": 5934.55,
+   "pct_change": -12.542,
+   "turnover_crore": 2.27
   },
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 7,
-   "symbol": "ONEGLOBAL",
-   "security_name": "ONE GLOBAL SERVICE PROVIDER LI",
-   "close_price": 396.65,
-   "pct_change": -9.9955,
-   "turnover_crore": 1.2
+   "symbol": "NACLIND",
+   "security_name": "NACL Industries Limited",
+   "close_price": 117.4,
+   "pct_change": -12.3554,
+   "turnover_crore": 2.33
   },
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 8,
-   "symbol": "ELLEN",
-   "security_name": "ELLENBARRIE INDUSTRIAL GASES L",
-   "close_price": 313.55,
-   "pct_change": -9.99,
-   "turnover_crore": 2.9
+   "symbol": "RATEGAIN",
+   "security_name": "RateGain Travel Technologies L",
+   "close_price": 725.9,
+   "pct_change": -11.4216,
+   "turnover_crore": 46.2
   },
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 9,
-   "symbol": "VIDYAWIRES",
-   "security_name": "VIDYA WIRES LIMITED",
-   "close_price": 73.64,
-   "pct_change": -9.9425,
-   "turnover_crore": 2.99
+   "symbol": "WSTCSTPAPR",
+   "security_name": "West Coast Paper Mills Limited",
+   "close_price": 739.4,
+   "pct_change": -11.2098,
+   "turnover_crore": 6.32
   },
   {
    "exchange": "BSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 10,
-   "symbol": "UNIVCABLES",
-   "security_name": "UNIVERSAL CABLES LTD.",
-   "close_price": 1174.9,
-   "pct_change": -9.557,
-   "turnover_crore": 2.96
+   "symbol": "RICOAUTO",
+   "security_name": "RICO AUTO INDUSTRIES LTD.",
+   "close_price": 97.89,
+   "pct_change": -10.8064,
+   "turnover_crore": 3.54
   },
   {
    "exchange": "NSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "gainer",
    "rank": 1,
-   "symbol": "AGARIND",
-   "security_name": "AGARWAL INDS CORP LTD.",
-   "close_price": 414.0,
-   "pct_change": 20.0,
-   "turnover_crore": 8.82
+   "symbol": "MMFL",
+   "security_name": "MM FORGINGS LTD",
+   "close_price": 629.4,
+   "pct_change": 19.9543,
+   "turnover_crore": 304.04
   },
   {
    "exchange": "NSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "gainer",
    "rank": 2,
-   "symbol": "POKARNA",
-   "security_name": "POKARNA LIMITED",
-   "close_price": 810.4,
-   "pct_change": 19.997,
-   "turnover_crore": 156.76
+   "symbol": "SYMBIOTEC",
+   "security_name": "SYMBIOTEC PHARMALAB LTD",
+   "close_price": 1513.6,
+   "pct_change": 19.0405,
+   "turnover_crore": 1102.24
   },
   {
    "exchange": "NSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "gainer",
    "rank": 3,
-   "symbol": "TONBO",
-   "security_name": "TONBO IMAGING INDIA LTD",
-   "close_price": 1530.3,
-   "pct_change": 19.9953,
-   "turnover_crore": 1510.78
+   "symbol": "IVALUE",
+   "security_name": "IVALUE INFOSOLUTIONS LTD",
+   "close_price": 221.04,
+   "pct_change": 13.6511,
+   "turnover_crore": 157.72
   },
   {
    "exchange": "NSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "gainer",
    "rank": 4,
+   "symbol": "IKIO",
+   "security_name": "IKIO TECHNOLOGIES LIMITED",
+   "close_price": 196.69,
+   "pct_change": 13.1052,
+   "turnover_crore": 380.09
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 5,
+   "symbol": "RAMKY",
+   "security_name": "RAMKY INFRA LTD",
+   "close_price": 392.0,
+   "pct_change": 12.9683,
+   "turnover_crore": 161.49
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 6,
+   "symbol": "TTML",
+   "security_name": "TATA TELESERV(MAHARASTRA)",
+   "close_price": 39.77,
+   "pct_change": 12.5672,
+   "turnover_crore": 732.07
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 7,
+   "symbol": "SAILIFE",
+   "security_name": "SAI LIFE SCIENCES LIMITED",
+   "close_price": 1785.1,
+   "pct_change": 11.9536,
+   "turnover_crore": 2341.29
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 8,
+   "symbol": "MTNL",
+   "security_name": "MAHANAGAR TELEPHONE NIGAM",
+   "close_price": 26.86,
+   "pct_change": 11.1295,
+   "turnover_crore": 225.41
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 9,
+   "symbol": "TTKPRESTIG",
+   "security_name": "TTK PRESTIGE LTD",
+   "close_price": 608.75,
+   "pct_change": 10.4709,
+   "turnover_crore": 427.94
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "gainer",
+   "rank": 10,
+   "symbol": "ELECTHERM",
+   "security_name": "ELECTROTHERM (I) LTD.",
+   "close_price": 669.2,
+   "pct_change": 9.9934,
+   "turnover_crore": 2.67
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "loser",
+   "rank": 1,
+   "symbol": "SUPRIYA",
+   "security_name": "SUPRIYA LIFESCIENCE LTD",
+   "close_price": 695.8,
+   "pct_change": -19.9862,
+   "turnover_crore": 142.96
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "loser",
+   "rank": 2,
+   "symbol": "EBGNG",
+   "security_name": "GNG ELECTRONICS LIMITED",
+   "close_price": 584.35,
+   "pct_change": -19.9027,
+   "turnover_crore": 201.73
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "loser",
+   "rank": 3,
+   "symbol": "THERMAX",
+   "security_name": "THERMAX LTD",
+   "close_price": 2746.3,
+   "pct_change": -17.2726,
+   "turnover_crore": 800.62
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "loser",
+   "rank": 4,
+   "symbol": "RPTECH",
+   "security_name": "RASHI PERIPHERALS LIMITED",
+   "close_price": 738.55,
+   "pct_change": -14.8204,
+   "turnover_crore": 160.58
+  },
+  {
+   "exchange": "NSE",
+   "trade_date": "2026-11-06",
+   "direction": "loser",
+   "rank": 5,
    "symbol": "OPTIFIN",
    "security_name": "OPTIMUS FINANCE LTD.",
-   "close_price": 19.83,
-   "pct_change": 19.8912,
-   "turnover_crore": 4.15
+   "close_price": 17.03,
+   "pct_change": -14.12,
+   "turnover_crore": 2.2
   },
   {
    "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 5,
-   "symbol": "TRIGYN",
-   "security_name": "TRIGYN TECHNOLOGIES LTD",
-   "close_price": 61.96,
-   "pct_change": 17.7052,
-   "turnover_crore": 8.83
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 6,
-   "symbol": "GYFTR",
-   "security_name": "GYFTR LIMITED",
-   "close_price": 210.95,
-   "pct_change": 15.6651,
-   "turnover_crore": 108.32
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 7,
-   "symbol": "BCSSL",
-   "security_name": "BOMBAY COATED N SPECL S L",
-   "close_price": 94.81,
-   "pct_change": 15.622,
-   "turnover_crore": 73.23
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 8,
-   "symbol": "GNRL",
-   "security_name": "GUJARAT NATURAL RES L",
-   "close_price": 12.2,
-   "pct_change": 14.9209,
-   "turnover_crore": 17.08
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 9,
-   "symbol": "IXIGO",
-   "security_name": "LE TRAVENUES TECHNOLOGY L",
-   "close_price": 163.79,
-   "pct_change": 13.2319,
-   "turnover_crore": 229.41
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "gainer",
-   "rank": 10,
-   "symbol": "AIROLAM",
-   "security_name": "AIRO LAM LIMITED",
-   "close_price": 109.37,
-   "pct_change": 12.9505,
-   "turnover_crore": 1.38
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "loser",
-   "rank": 1,
-   "symbol": "PIIND",
-   "security_name": "PI INDUSTRIES LTD",
-   "close_price": 1770.0,
-   "pct_change": -19.0672,
-   "turnover_crore": 1848.47
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "loser",
-   "rank": 2,
-   "symbol": "VALIANTORG",
-   "security_name": "VALIANT ORGANICS LIMITED",
-   "close_price": 369.35,
-   "pct_change": -14.8374,
-   "turnover_crore": 40.72
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "loser",
-   "rank": 3,
-   "symbol": "CUMMINSIND",
-   "security_name": "CUMMINS INDIA LTD",
-   "close_price": 4058.9,
-   "pct_change": -14.1101,
-   "turnover_crore": 2442.55
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "loser",
-   "rank": 4,
-   "symbol": "SUNSHIEL",
-   "security_name": "SUNSHIELD CHEMICALS LTD.",
-   "close_price": 926.8,
-   "pct_change": -12.9684,
-   "turnover_crore": 2.3
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
-   "direction": "loser",
-   "rank": 5,
-   "symbol": "APTUS",
-   "security_name": "APTUS VALUE HSG FIN I LTD",
-   "close_price": 179.93,
-   "pct_change": -12.7739,
-   "turnover_crore": 372.48
-  },
-  {
-   "exchange": "NSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 6,
-   "symbol": "KIRLOSENG",
-   "security_name": "KIRLOSKAR OIL ENG LTD",
-   "close_price": 1592.4,
-   "pct_change": -11.6315,
-   "turnover_crore": 402.65
+   "symbol": "TDPOWERSYS",
+   "security_name": "TD POWER SYSTEMS LTD.",
+   "close_price": 576.5,
+   "pct_change": -13.8524,
+   "turnover_crore": 1113.3
   },
   {
    "exchange": "NSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 7,
-   "symbol": "ELLEN",
-   "security_name": "ELLENBARRIE INDUS GASES L",
-   "close_price": 312.8,
-   "pct_change": -9.9986,
-   "turnover_crore": 46.11
+   "symbol": "NACLIND",
+   "security_name": "NACL INDUSTRIES LIMITED",
+   "close_price": 117.21,
+   "pct_change": -12.6667,
+   "turnover_crore": 42.5
   },
   {
    "exchange": "NSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 8,
-   "symbol": "PASHUPATI",
-   "security_name": "PASHUPATI COTSPIN LIMITED",
-   "close_price": 120.47,
-   "pct_change": -9.9963,
-   "turnover_crore": 1.95
+   "symbol": "KINGFA",
+   "security_name": "KINGFA SCI & TEC IND LTD.",
+   "close_price": 5932.0,
+   "pct_change": -12.6298,
+   "turnover_crore": 46.88
   },
   {
    "exchange": "NSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 9,
-   "symbol": "ONEGLOBAL",
-   "security_name": "ONE GLOBAL SERVICE PROV L",
-   "close_price": 395.75,
-   "pct_change": -9.9955,
-   "turnover_crore": 3.06
+   "symbol": "MARINE",
+   "security_name": "MARINE ELECTRICAL (I) LTD",
+   "close_price": 391.3,
+   "pct_change": -11.5606,
+   "turnover_crore": 170.08
   },
   {
    "exchange": "NSE",
-   "trade_date": "2026-11-05",
+   "trade_date": "2026-11-06",
    "direction": "loser",
    "rank": 10,
-   "symbol": "UNIVCABLES",
-   "security_name": "UNIVERSAL CABLES LTD",
-   "close_price": 1175.1,
-   "pct_change": -9.8919,
-   "turnover_crore": 76.22
+   "symbol": "RATEGAIN",
+   "security_name": "RATEGAIN TRAVEL TECHN LTD",
+   "close_price": 726.35,
+   "pct_change": -11.3613,
+   "turnover_crore": 131.93
   }
  ]
 }
