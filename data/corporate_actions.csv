@@ -1374,9 +1374,11 @@ equities,BALKRISIND,EQ,INE787D01018,2026-11-11,dividend,,,Interim Dividend - Rs 
 equities,BALRAMCHIN,EQ,INE119A01028,2026-11-11,dividend,,,Interim Dividend - Rs 4 Per Share
 equities,CHAMBLFERT,EQ,INE085A01013,2026-11-11,dividend,,,Interim Dividend - Rs 5 Per Share
 equities,CONCOR,EQ,INE111A01017,2026-11-11,dividend,,,Interim Dividend - Rs 1.90 Per Share
+equities,EVONILE,EQ,INE234A01025,2026-11-11,rights,,,Rights 5:12 @ Premium Rs 855/-
 equities,GALAXYSURF,EQ,INE600K01018,2026-11-11,dividend,,,Interim Dividend - Rs 18 Per Share
 equities,GPTINFRA,EQ,INE390G01014,2026-11-11,dividend,,,Interim Dividend - Re 1 Per Share
 equities,HUDCO,EQ,INE031A07873,2026-11-11,dividend,,,Interim Dividend - Rs 1.35 Per Share
+equities,INDIGRID,IV,INE219X23014,2026-11-11,other,,,Distribution Rs 4.12 Per Unit Consists Of Interest - Rs 3.1878 Per Unit /Capital Repayment - Re 0.9322 Per Unit
 equities,JMFINANCIL,EQ,INE780C01023,2026-11-11,dividend,,,Interim Dividend - Rs 1.65 Per Share
 equities,JYOTHYLAB,EQ,INE668F01031,2026-11-11,other,,,Buy Back
 equities,LALPATHLAB,EQ,INE600L01024,2026-11-11,dividend,,,Interim Dividend - Rs 5 Per Share
@@ -1388,14 +1390,40 @@ equities,PREMIERENE,EQ,INE0BS701011,2026-11-11,dividend,,,Interim Dividend - Re 
 equities,RITES,EQ,INE320J01015,2026-11-11,dividend,,,Interim Dividend - Rs 1.90 Per Share
 equities,SGBNOV26,GB,IN0020180314,2026-11-11,other,,,Redemption
 equities,SONATSOFTW,EQ,INE269A01021,2026-11-11,dividend,,,Interim Dividend - Rs 1.25 Per Share
+equities,CITIUSINVT,IV,INE2Q7823014,2026-11-12,dividend,,,Distribution - Rs 5.0185 Per Unit Consists Of Rs 2.4686 Per Unit As Interest/ Re 0.0213 Per Unit As Repayment Of Debt/ Rs 0.6943 Per Unit As Dividend/ Rs 1.8343 Per Unit As Other Income
+equities,GAJA,EQ,INE18UN01038,2026-11-12,dividend,,,Interim Dividend - Re 0.50 Per Share
+equities,GODFRYPHLP,EQ,INE260B01010,2026-11-12,dividend,,,Interim Dividend - Rs 10 Per Share
 equities,GPPL,EQ,INE517F01014,2026-11-12,dividend,,,Interim Dividend - Rs 3 Per Share
 equities,HINDUNILVR,EQ,INE030A01027,2026-11-12,dividend,,,Interim Dividend - Rs 19 Per Share
 equities,IMFA,EQ,INE919H01018,2026-11-12,dividend,,,Interim Dividend - Rs 5 Per Share
+equities,INSECTICID,EQ,INE070I01018,2026-11-12,dividend,,,Interim Dividend - Rs 5 Per Share
 equities,IRB,EQ,INE821I01014,2026-11-12,dividend,,,Interim Dividend - Re 0.05 Per Share
 equities,NLCINDIA,EQ,INE589A01014,2026-11-12,dividend,,,Interim Dividend - Rs 1.50 Per Share
 equities,ONGC,EQ,INE213A01011,2026-11-12,dividend,,,Interim Dividend - Rs 8 Per Share
 equities,SAFARI,EQ,INE429E01023,2026-11-12,dividend,,,Interim Dividend - Rs 2 Per Share
+equities,APTUS,EQ,INE852O01025,2026-11-13,dividend,,,Interim Dividend - Rs 2 Per Share
+equities,ASTRAL,EQ,INE006I01012,2026-11-13,dividend,,,Interim Dividend - Rs 1.50 Per Share
+equities,BMWVENTLTD,EQ,INE965W01036,2026-11-13,dividend,,,Interim Dividend - Rs 1.50 Per Share
 equities,CAMS,EQ,INE596I01012,2026-11-13,dividend,,,Interim Dividend - Rs 3.25 Per Share
+equities,DYNAMATECH,EQ,INE221B01012,2026-11-13,dividend,,,Interim Dividend - Rs 2 Per Share
+equities,EMAMILTD,EQ,INE548C01024,2026-11-13,dividend,,,Interim Dividend - Rs 5 Per Share
 equities,FDC,EQ,INE258B01022,2026-11-13,other,,,Buy Back
+equities,GESHIP,EQ,INE017A01032,2026-11-13,dividend,,,Interim Dividend - Rs 14.40 Per Share
+equities,GOLDIAM,EQ,INE025B01017,2026-11-13,dividend,,,Interim Dividend - Rs 2 Per Share
+equities,IGPL,EQ,INE204A01010,2026-11-13,dividend,,,Interim Dividend - Rs 10 Per Share
+equities,OCCLLTD,EQ,INE0PK601023,2026-11-13,dividend,,,Interim Dividend - Rs 2 Per Share
+equities,ORIENTTECH,EQ,INE0PPK01015,2026-11-13,dividend,,,Interim Dividend - Rs 2 Per Share
+equities,PGIL,EQ,INE940H01014,2026-11-13,dividend,,,Interim Dividend - Rs 5 Per Share
+equities,PPAP,EQ,INE095I01015,2026-11-13,dividend,,,Interim Dividend - Rs 1.50 Per Share
+equities,RAIN,EQ,INE855B01025,2026-11-13,dividend,,,Interim Dividend - Re 0.50 Per Share
+equities,REPCOHOME,EQ,INE612J01015,2026-11-13,dividend,,,Interim Dividend - Rs 5 Per Share
+equities,SBCL,EQ,INE386D01027,2026-11-13,dividend,,,Interim Dividend - Rs 2 Per Share
+equities,SOMANYCERA,EQ,INE355A01010,2026-11-13,dividend,,,Interim Dividend - Rs 6 Per Share
+equities,STARCEMENT,EQ,INE460H01021,2026-11-13,dividend,,,Interim Dividend - Re 1 Per Share
+equities,TRANSWORLD,EQ,INE757B01015,2026-11-13,dividend,,,Interim Dividend - Rs 11 Per Share
+equities,SCI,EQ,INE109A01011,2026-11-16,dividend,,,Interim Dividend - Rs 4 Per Share
+equities,PFC,EQ,INE134E01011,2026-11-17,dividend,,,Interim Dividend - Rs 4.10 Per Share
+equities,INGERRAND,EQ,INE177A01018,2026-11-19,dividend,,,Interim Dividend - Rs 20 Per Share
 equities,815GS2026,GS,IN0020140060,2026-11-20,other,,,Redemption
 equities,MEDIASSIST,EQ,INE456Z01021,2026-11-20,other,,,Buy Back
+equities,VENUSPIPES,EQ,INE0JA001018,2026-11-20,dividend,,,Interim Dividend - Re 0.50 Per Share
